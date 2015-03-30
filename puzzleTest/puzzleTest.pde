@@ -18,9 +18,10 @@ PFont f1, f2, f3;
 IntList ints = new IntList();
 int bX = width/2;
 int bY = (height/3) * 2;
-int bS = 300;
+int bS = 350;
 int t0;
 boolean [] set = new boolean[numberOfCircles];
+int timeDelay = 2000;
 
 circle [] circles = new circle[numberOfCircles * colors.length];
 circle [] lights = new circle[numberOfCircles];
@@ -67,15 +68,7 @@ void setup() {
 
 void draw() {
   background(0);
-
   noStroke();
-  fill(225);
-  rectMode(CORNER);
-  rect(0, 0, 500, 20); 
-  fill(0);
-  textFont(f3);
-  text(mouseX, 130, 10);
-  text(mouseY, 160, 10);
 
   switch(mode) {
 
@@ -86,15 +79,16 @@ void draw() {
     break;
 
   case 10: //Display timer ready for countdown and wait for click
-    showTimer(500);
+    showTimer(timeDelay/10);
     displayButton("START");
     break; 
 
   case 20: //Display random circles and countdown timer
     displayRandom();
+    resetSelection();
     showLights();
     mode = 30;
-    t0 = millis() + 2000;
+    t0 = millis() + timeDelay;
     break;
 
   case 30: //Display random circles and countdown timer
@@ -121,6 +115,13 @@ void draw() {
     showLights();
     displayButton("RESET");
     break;
+  }
+}
+
+void resetSelection() {
+  for(int i = 0; i < set.length; i++) {
+    set[i] = false;
+    selection[i].setColour(color(0, 0, 0));
   }
 }
 
@@ -155,11 +156,11 @@ void mousePressed() {
 void displayButton(String text) {
   fill(255, 0, 0);
   rectMode(CENTER);
-  rect(bX, bY, bS, bS/2);
+  rect(bX, bY, bS, bS/3, 50);
   fill(255, 255, 255);
   textFont(f2);
   textAlign(CENTER, CENTER);
-  text(text, bX, bY);
+  text(text, bX, bY-15);
 }
 
 void showTimer(int time) {
@@ -282,7 +283,7 @@ class circle {
   }
 
   boolean clicked(int x, int y) {
-    if (x > xpos && x < xpos + size && y > ypos && y < ypos + size) {
+    if (x > xpos - size/2 && x < xpos + size/2 && y > ypos  - size/2 && y < ypos + size/2) {
       return true;
     } else {
       return false;
