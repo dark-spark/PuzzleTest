@@ -27,16 +27,16 @@ int bS = 350;
 int t0;
 boolean [] set = new boolean[numberOfCircles];
 
-circle [] circles = new circle[numberOfCircles * colors.length];
+circle [] circles = new circle[numberOfCircles * numberOfCircles];
 circle [] lights = new circle[numberOfCircles];
 circle [] selection = new circle[numberOfCircles];
 
 void setup() {
-  
-  if(numberOfCircles > 8) {
+
+  if (numberOfCircles > 8) {
     throw new RuntimeException("numberOfCircles cannot be > 8");
   }
-  
+
   size(800, 600);
   background(0);
 
@@ -58,7 +58,7 @@ void setup() {
   }
 
   int index = 0;
-  for (int j = 0; j < colors.length; j++) {
+  for (int j = 0; j < numberOfCircles; j++) {
     for (int i = 0; i < numberOfCircles; i++) {
       circles[index] = new circle(pos[i], (height/2) + (j * (size + 10)), size, colors[j]);
       index++;
@@ -121,9 +121,23 @@ void draw() {
   case 50: //Display results and restart button
     showSelection();
     showLights();
+    displayScore();
     displayButton("RESET");
     break;
   }
+}
+
+void displayScore() {
+  int score = 0;
+  for (int i = 0; i < numberOfCircles; i++) {
+    if(selection[i].getColour() == lights[i].getColour()) {
+      score += 1;
+    }
+  }
+  textFont(f1);
+  textAlign(CENTER);
+  fill(255, 255, 255);
+  text(score + "/" + numberOfCircles, width/2, 90);
 }
 
 void resetSelection() {
