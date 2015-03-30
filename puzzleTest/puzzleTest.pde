@@ -1,5 +1,5 @@
 
-int numberOfCircles = 7;
+int numberOfCircles = 6;
 int gap = 100;
 int pos[] = new int[numberOfCircles];
 IntList randomInts = new IntList();
@@ -27,11 +27,19 @@ void setup() {
     pos[i] = start + (gap * i);
   }
   
+  for(int j = 0; j < 30; j++){
+    IntList ints = new IntList();
   for(int i = 0; i < numberOfCircles; i++) {
-    randomInts.append(i);
+    ints.append(i);
   }
-  randomInts.shuffle(); 
-  
+  ints.shuffle();
+  print("{");
+  for(int k = 0; k < ints.size(); k++) {
+    print(ints.get(k));
+    print(",");
+  }
+  println("}");
+  }
   t1 = millis();
 }
 
@@ -45,7 +53,7 @@ void draw() {
         fill(colors[randomInts.get(i)]);
         ellipse(pos[i], height / 4, 40, 40);
       }
-      if(millis() - t1 > 1000) {
+      if(millis() - t1 > 5000) {
         mode = 'i';
       }
       break;
@@ -68,12 +76,21 @@ void delay(int delay) {
   while (millis () - time <= delay);
 }
 
-
-
-
-
-
-
+class circle {
+  int ypos, xpos, size;
+  color colour;
+  
+  circle(int x, int y, int s, color c) {
+    ypos = y;
+    xpos = x;
+    colour = c;
+    size = s;
+  }
+  
+  void display() {
+    ellipse(xpos, ypos, size, size);
+  }
+}
 
 
 
