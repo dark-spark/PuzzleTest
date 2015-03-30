@@ -1,5 +1,7 @@
 
 int numberOfCircles = 6;
+int timeDelay = 2000;
+
 int gap = 100;
 int size = 40;
 int pos[] = new int[numberOfCircles];
@@ -10,7 +12,10 @@ color colors[] = {
   color(0, 0, 255), 
   color(255, 255, 0), 
   color(255, 0, 255), 
-  color(0, 255, 255)
+  color(0, 255, 255), 
+  color(255, 128, 0), 
+  color(255, 0, 128), 
+  color(128, 255, 0)
 };
 int t1;
 int mode = 0;
@@ -21,14 +26,17 @@ int bY = (height/3) * 2;
 int bS = 350;
 int t0;
 boolean [] set = new boolean[numberOfCircles];
-int timeDelay = 2000;
 
 circle [] circles = new circle[numberOfCircles * colors.length];
 circle [] lights = new circle[numberOfCircles];
 circle [] selection = new circle[numberOfCircles];
 
 void setup() {
-
+  
+  if(numberOfCircles > 8) {
+    throw new RuntimeException("numberOfCircles cannot be > 8");
+  }
+  
   size(800, 600);
   background(0);
 
@@ -119,7 +127,7 @@ void draw() {
 }
 
 void resetSelection() {
-  for(int i = 0; i < set.length; i++) {
+  for (int i = 0; i < set.length; i++) {
     set[i] = false;
     selection[i].setColour(color(0, 0, 0));
   }
@@ -145,7 +153,7 @@ void mousePressed() {
   if (mode == 40) {
     for (int i = 0; i < circles.length; i++) {
       if (circles[i].clicked(mouseX, mouseY)) {
-        int col = i % 6;
+        int col = i % numberOfCircles;
         set[col] = true;
         selection[col].setColour(circles[i].getColour());
       }
